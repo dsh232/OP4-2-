@@ -7,24 +7,24 @@ using namespace std;
 vector<char> removeSpacesBetweenQuestions(vector<char> text) {
     int firstQuestionIndex = -1;
     int secondQuestionIndex = -1;
-
+    bool ifContuine = true;
     // Находим индексы первого и второго знаков вопроса.
-    for (int i = 0; text.size() > i; ++i) {
-        if (text[i] == '?') {
+    for (int i = 0; text.size() > i && ifContuine; ++i) {
+        if (text[i] == '?' ) {
             if (firstQuestionIndex == -1) {
                 firstQuestionIndex = i;
             }
             else {
                 secondQuestionIndex = i;
-                break;
+                ifContuine = false;
             }
         }
     }
-
+    ifContuine = true;
     if (firstQuestionIndex != -1 && secondQuestionIndex != -1) {
-        for (int i = firstQuestionIndex + 1; i < secondQuestionIndex; ++i) {
+        for (int i = firstQuestionIndex + 1; i < secondQuestionIndex && ifContuine; ++i) {
             if (text[i] == '?') {
-                break;
+                ifContuine = false;
             }
             if (text[i] == ' ') {
                 text.erase(text.begin() + i);
