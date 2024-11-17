@@ -10,7 +10,7 @@ vector<char> removeSpacesBetweenQuestions(vector<char> text) {
     bool ifContuine = true;
     // Находим индексы первого и второго знаков вопроса.
     for (int i = 0; text.size() > i && ifContuine; ++i) {
-        if (text[i] == '?' ) {
+        if (text[i] == '?') {
             if (firstQuestionIndex == -1) {
                 firstQuestionIndex = i;
             }
@@ -37,21 +37,29 @@ vector<char> removeSpacesBetweenQuestions(vector<char> text) {
 
 int main()
 {
-    vector<char> str;
+  
     ifstream inputFile("input.txt");
     ofstream outputFile("output.txt");
 
     if (inputFile.is_open() && outputFile.is_open())
     {
         char symbol;
+        vector<char> arr;
+        ostream_iterator<char> output_iterator(outputFile);
         while (inputFile.get(symbol)) {
-            str.push_back(symbol);
+            if (symbol == '\n') {
+                arr = removeSpacesBetweenQuestions(arr);
+                arr.push_back('\n');
+                copy(arr.begin(), arr.end(), output_iterator);
+                arr.erase(arr.begin(), arr.end());    //обнуляем вектор с новой строки
+            }
+            else arr.push_back(symbol);           
         }
 
-        str = removeSpacesBetweenQuestions(str);
-
-        ostream_iterator<char> output_iterator(outputFile);  //вывод результата  в файл
-        copy(str.begin(), str.end(), output_iterator);
+        cout << "succes. ";
+          //вывод результата  в файл
+        arr = removeSpacesBetweenQuestions(arr);
+        copy(arr.begin(), arr.end(), output_iterator);
 
         return 0;
     }
@@ -59,7 +67,6 @@ int main()
     {
         cout << "file is not found.";
     }
-    str.clear();
     inputFile.clear();
     outputFile.clear();
 }
